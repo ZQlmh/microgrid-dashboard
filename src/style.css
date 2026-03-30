@@ -1,0 +1,122 @@
+:root {
+  --bg-color: #050a1f;
+  --panel-bg: rgba(13, 22, 47, 0.8);
+  --border-color: #1e3a8a;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --accent-cyan: #00d2ff;
+  --accent-blue: #3a7bd5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  height: 80px;
+  background: linear-gradient(180deg, rgba(13, 22, 47, 1) 0%, rgba(13, 22, 47, 0) 100%);
+  border-bottom: 2px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+  letter-spacing: 2px;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  height: calc(100vh - 80px);
+}
+
+.side-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.center-column {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-card {
+  flex: 1;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.panel-card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px;
+  width: 20px; height: 20px;
+  border-top: 2px solid var(--accent-cyan);
+  border-left: 2px solid var(--accent-cyan);
+  border-top-left-radius: 8px;
+}
+.panel-card::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; right: -1px;
+  width: 20px; height: 20px;
+  border-bottom: 2px solid var(--accent-cyan);
+  border-right: 2px solid var(--accent-cyan);
+  border-bottom-right-radius: 8px;
+}
+
+.panel-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+.panel-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background-color: var(--accent-cyan);
+  margin-right: 8px;
+  border-radius: 2px;
+}
+
+.chart-container {
+  width: 100%;
+  height: calc(100% - 30px);
+}
