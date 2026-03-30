@@ -1,12 +1,40 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>microgrid-dashboard</title>
+    <title>广联达电能优化运行概览</title>
+    <!-- 引入 SuperDesign 推荐的字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 引入 Tailwind CSS CDN 进行快速布局和 SuperDesign 规范落地 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Noto Sans SC"', 'Outfit', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              background: '#040b14', // 深邃背景
+              surface: 'rgba(12, 33, 53, 0.65)', // 卡片背景
+              border: 'rgba(0, 210, 255, 0.2)', // 科技蓝边框
+              primary: '#00d2ff', // 主题亮青色
+              success: '#00ff9d', // 绿色
+              warning: '#ffb13b', // 橙色
+            }
+          }
+        }
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-background text-white overflow-hidden">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -1,5 +1,5 @@
 <template>
-  <div ref="chartRef" class="chart-container"></div>
+  <div ref="chartRef" class="w-full h-full relative"></div>
 </template>
 
 <script setup lang="ts">
@@ -14,35 +14,44 @@ const initChart = () => {
     myChart = echarts.init(chartRef.value, 'dark')
     const option = {
       backgroundColor: 'transparent',
-      tooltip: { formatter: '{a} <br/>{b} : {c}%' },
+      title: {
+        text: '30%',
+        subtext: '当前电量',
+        left: 'center',
+        top: 'center',
+        textStyle: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
+        subtextStyle: { color: '#a3a3a3', fontSize: 10, padding: [5,0,0,0] }
+      },
       series: [
         {
-          name: '储能SOC',
-          type: 'gauge',
-          center: ['50%', '55%'],
-          radius: '85%',
-          progress: { show: true, width: 18, itemStyle: { color: '#00d2ff' } },
-          axisLine: { lineStyle: { width: 18, color: [[1, 'rgba(255,255,255,0.1)']] } },
-          axisTick: { show: false },
-          splitLine: { length: 15, lineStyle: { width: 2, color: '#999' } },
-          axisLabel: { distance: 25, color: '#999', fontSize: 14 },
-          anchor: { show: true, showAbove: true, size: 24, itemStyle: { borderWidth: 10 } },
-          title: { show: true, color: '#00d2ff', fontSize: 20 },
-          detail: {
-            valueAnimation: true, fontSize: 50, color: '#fff', formatter: '{value}%', offsetCenter: [0, '70%']
-          },
-          data: [{ value: 76.5, name: 'State Of Charge' }]
+          name: 'SOC',
+          type: 'pie',
+          radius: ['70%', '85%'],
+          avoidLabelOverlap: false,
+          label: { show: false },
+          labelLine: { show: false },
+          data: [
+            { 
+              value: 30, 
+              name: 'Remaining',
+              itemStyle: { 
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: '#00d2ff' },
+                  { offset: 1, color: '#005f73' }
+                ]),
+                shadowBlur: 10, shadowColor: '#00d2ff'
+              }
+            },
+            { 
+              value: 70, 
+              name: 'Used',
+              itemStyle: { color: 'rgba(255, 255, 255, 0.1)' }
+            }
+          ]
         }
       ]
     }
     myChart.setOption(option)
-    
-    // Simulate real-time updates
-    setInterval(() => {
-      const val = +(Math.random() * 20 + 60).toFixed(1)
-      myChart?.setOption({ series: [{ data: [{ value: val, name: 'State Of Charge' }] }] })
-    }, 3000)
-
     window.addEventListener('resize', () => myChart?.resize())
   }
 }

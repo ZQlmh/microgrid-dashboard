@@ -1,5 +1,5 @@
 <template>
-  <div ref="chartRef" class="chart-container"></div>
+  <div ref="chartRef" class="w-full h-full"></div>
 </template>
 
 <script setup lang="ts">
@@ -14,29 +14,37 @@ const initChart = () => {
     myChart = echarts.init(chartRef.value, 'dark')
     const option = {
       backgroundColor: 'transparent',
-      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-      grid: { left: '3%', right: '4%', bottom: '3%', top: '15%', containLabel: true },
+      tooltip: { trigger: 'axis' },
+      legend: {
+        data: ['充电功率', '放电功率'],
+        top: 0, right: 0, icon: 'circle',
+        itemWidth: 8, textStyle: { color: '#a3a3a3', fontSize: 10 }
+      },
+      grid: { left: '0%', right: '0%', bottom: '5%', top: '30%', containLabel: true },
       xAxis: {
-        type: 'category',
-        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
-        axisLine: { lineStyle: { color: '#1e3a8a' } }
+        type: 'category', boundaryGap: false,
+        data: ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22'],
+        axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+        axisLabel: { color: '#a3a3a3', fontSize: 9 }
       },
       yAxis: {
-        type: 'value', name: '发电量 (MWh)',
-        splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } }
+        type: 'value',
+        name: '充放电趋势',
+        nameTextStyle: { color: '#a3a3a3', fontSize: 9, padding: [0, 0, 0, 20] },
+        splitLine: { show: false },
+        axisLabel: { show: false },
+        min: -20000, max: 20000
       },
       series: [
         {
-          name: '光伏发电量',
-          type: 'bar',
-          barWidth: '60%',
-          data: [450, 520, 600, 780, 850, 920, 900],
-          itemStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: '#f59e0b' }, { offset: 1, color: '#d97706' }
-            ]),
-            borderRadius: [4, 4, 0, 0]
-          }
+          name: '充电功率', type: 'line', smooth: true, symbol: 'none',
+          data: [15000, 16000, 15000, 8000, 5000, 1000, 0, 0, 12000, 14000, 16000, 15000],
+          itemStyle: { color: '#00d2ff' }
+        },
+        {
+          name: '放电功率', type: 'line', smooth: true, symbol: 'none',
+          data: [0, 0, 0, 0, 0, -2000, -18000, -18000, -16000, -2000, 0, 0],
+          itemStyle: { color: '#ffb13b' }
         }
       ]
     }

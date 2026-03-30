@@ -1,5 +1,5 @@
 <template>
-  <div ref="chartRef" class="chart-container"></div>
+  <div ref="chartRef" class="w-full h-full"></div>
 </template>
 
 <script setup lang="ts">
@@ -12,40 +12,51 @@ let myChart: echarts.ECharts | null = null
 const initChart = () => {
   if (chartRef.value) {
     myChart = echarts.init(chartRef.value, 'dark')
-    
-    // Simulate complex data
-    let base = +new Date(2026, 2, 30)
-    let oneDay = 24 * 3600 * 1000
-    let date = []
-    let data = [Math.random() * 300]
-    for (let i = 1; i < 50; i++) {
-      var now = new Date((base += oneDay))
-      date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'))
-      data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]))
-    }
-
     const option = {
       backgroundColor: 'transparent',
-      tooltip: { trigger: 'axis', position: function (pt: any) { return [pt[0], '10%']; } },
-      title: { left: 'center', text: '楼宇用电量走势', textStyle: { color: '#e2e8f0', fontSize: 14 } },
-      toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
-      xAxis: { type: 'category', boundaryGap: false, data: date, axisLine: { lineStyle: { color: '#1e3a8a' } } },
-      yAxis: { type: 'value', boundaryGap: [0, '100%'], splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } } },
-      dataZoom: [
-        { type: 'inside', start: 0, end: 100 },
-        { start: 0, end: 100 }
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      legend: {
+        data: ['调节方向', '实际值', '调节目标'],
+        top: 0, left: 'center', icon: 'circle',
+        itemWidth: 8, textStyle: { color: '#a3a3a3', fontSize: 10 }
+      },
+      grid: { left: '2%', right: '2%', bottom: '5%', top: '25%', containLabel: true },
+      xAxis: {
+        type: 'category',
+        data: ['光伏调节\nkW', '储能调节\nkW', '空调调节\nkW', '充电桩调节\nkW', '需量调节\nkVA'],
+        axisLine: { show: true, lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+        axisTick: { show: false },
+        axisLabel: { color: '#a3a3a3', fontSize: 10, lineHeight: 14 }
+      },
+      yAxis: [
+        {
+          type: 'value', show: false
+        },
+        {
+          type: 'value', show: false
+        }
       ],
       series: [
         {
-          name: '负载数据', type: 'line', symbol: 'none', sampling: 'lttb',
-          itemStyle: { color: 'rgb(14, 165, 233)' },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: 'rgba(14, 165, 233, 0.8)' },
-              { offset: 1, color: 'rgba(14, 165, 233, 0.1)' }
-            ])
+          name: '实际值', type: 'bar', barWidth: 6,
+          data: [12, -18, 0, 654, 34.98],
+          itemStyle: { 
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#00d2ff' }, { offset: 1, color: '#005f73' }]),
+            borderRadius: [3,3,0,0]
           },
-          data: data
+          label: {
+            show: true, position: 'top', color: '#00d2ff', fontSize: 10
+          }
+        },
+        {
+          name: '调节目标', type: 'bar', barWidth: 10, barGap: '-135%',
+          data: [20, -20, 50, 750, 50],
+          itemStyle: { color: 'transparent', borderType: 'dashed', borderColor: '#00ff9d', borderWidth: 1 }
+        },
+        {
+          name: '调节方向', type: 'scatter', symbol: 'rect', symbolSize: [14, 2],
+          data: [20, -20, 50, 750, 50],
+          itemStyle: { color: '#ffb13b' }
         }
       ]
     }
